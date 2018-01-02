@@ -1,0 +1,66 @@
+body {
+    font: 15px sans-serif;
+    shape-rendering: crispEdges;
+}
+svg {
+  margin-bottom: 10px;
+}
+svg:last-child{
+  margin-bottom: 0;
+}
+h1{
+  text-align: center;
+  font-family: 'Gloria Hallelujah', cursive;
+}
+.day {
+    fill: #eee;
+    stroke: #fff;
+    stroke-width: 3px;
+}
+.day:hover {
+  stroke-width: 1px;
+}
+.color0{
+  fill: #e100ff
+}
+.color1 {
+  fill: #00f7ff;
+}
+.color2 {
+  fill: #0099ff;
+}
+.color3 {
+  fill: #002fff;
+}
+.color4 {
+  fill: #1fcf54;
+}
+.color5 {
+  fill: #ce0000;
+}
+.clickEvent {
+  fill: #1900fd
+}
+.dayName{
+  font-size: 10px;
+  text-anchor: middle;
+  display: none;
+}
+.smiles {
+  font-size: 20px;
+}
+.weekDays {
+  font-size: 8px
+}
+.pixels{
+  width: 100%;
+}
+.js-legend{
+  height: 150px;
+  width: 170px;
+  float: right;
+}
+.results{
+  width: 1250px;
+  float: left;
+}

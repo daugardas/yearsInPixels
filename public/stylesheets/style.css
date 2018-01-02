@@ -1,45 +1,4 @@
-body {
-    font: 15px sans-serif;
-    shape-rendering: crispEdges;
-  }
-.day {
-    fill: #eee;
-    stroke: #fff;
-    stroke-width: 3px;
-  }
-.color0{
-  fill: #e100ff
-}
-.color1 {
-  fill: #00f7ff;
-}
-.color2 {
-  fill: #0099ff;
-}
-.color3 {
-  fill: #002fff;
-}
-.color4 {
-  fill: #1fcf54;
-}
-.color5 {
-  fill: #d60505;
-}
-
-.js-legend {
-  margin-top: 20px;
-}
-.clickEvent {
-  fill: #1900fd
-}
-.dayName{
-  font-size: 10px;
-  text-anchor: middle;
-  display: none;
-}
-.smiles {
-  font-size: 20px;
-}
-.weekDays {
-  font-size: 8px
+body{
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 1em;
 }

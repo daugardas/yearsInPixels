@@ -1,7 +1,7 @@
-let CELL_SIZE = 26;
+let CELL_SIZE = 22;
 function createHeatMap(/* data,  */startYear, endYear) {
-    var width = 3273;
-    var height = 195;
+    var width = 1250;
+    var height = 160;
     var dx = 35;
     var gridClass = 'js-date-grid day';
     //var formatColor = d3.scaleQuantize().domain([0, data.maxCount]).range(d3.range(NUMBER_OF_COLORS).map((d) => `color${d}`));
@@ -23,7 +23,7 @@ function createHeatMap(/* data,  */startYear, endYear) {
   
     // Add year label.
     rect.append('text')
-        .attr('transform', `translate(-20,${CELL_SIZE * 3.5})rotate(-90)`)
+        .attr('transform', `translate(-10,${CELL_SIZE * 3.5})rotate(-90)`)
         .style('text-anchor', 'middle')
         .text((d) => d);
 
@@ -34,7 +34,7 @@ function createHeatMap(/* data,  */startYear, endYear) {
     .enter()
     .append('text')
       .attr('class', (d) => 'weekDays')
-      .attr('y', (d) => CELL_SIZE * d + 40)
+      .attr('y', (d) => CELL_SIZE * d + dx + (CELL_SIZE / 10))
       .text( (d) => {
         switch (d) {
           case 0:
@@ -100,10 +100,10 @@ function createHeatMap(/* data,  */startYear, endYear) {
       .data([1])
       .enter()
       .append('svg')
-        .attr('width', 3050)
+        .attr('width', 1250)
         .attr('height', 19)
       .append('g')
-        .attr('transform', 'translate(0,15)')
+        .attr('transform', 'translate(0,12)')
         .selectAll('.month')
         .data(() => d3.range(12))
         .enter()
@@ -118,10 +118,10 @@ function createHeatMap(/* data,  */startYear, endYear) {
       .data([1])
       .enter()
       .append('svg')
-        .attr('width', 2000)
+        .attr('width', 200)
         .attr('height', 6 * CELL_SIZE + dx)
       .append('g')
-        .attr('transform', 'translate(644,0)')
+        .attr('transform', 'translate(0,0)')
         .selectAll('.legend-grid')
         .data(() => d3.range(6))
         .enter()
@@ -163,7 +163,7 @@ function createHeatMap(/* data,  */startYear, endYear) {
 }
 
 $(document).ready(function(){
-    createHeatMap(2018,2019);
+    createHeatMap(2017,2020);
     $(`rect`).click(() => {
       $(this).addClass('clickEvent');
     });
