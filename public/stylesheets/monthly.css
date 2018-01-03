@@ -1,0 +1,95 @@
+body {
+    font: 15px sans-serif;
+    shape-rendering: crispEdges;
+}
+h1{
+    text-align: center;
+    font-family: 'Gloria Hallelujah', cursive;
+}
+.monthCalendar svg {
+    border: 1px solid #cacaca;
+    border-radius: 15px; 
+}
+.results{
+    width: 100%;
+    float: left;
+}
+.legend{
+    height: 150px;
+    width: 9%;
+    float: right;
+}
+.monthName{
+    fill: black;
+    font-size: 50px;
+}
+.day {
+    fill: #eee;
+    stroke: #fff;
+    stroke-width: 3px;
+}
+.monthCalendar .day:hover {
+    fill: #dddddd;
+    stroke-width: 5px;
+    cursor: pointer;
+}
+.weekName{
+    font-size: 10px;
+}
+.monthCalendar{
+    width: 500px;
+    height: 500px;
+    margin: auto;
+}
+.colored{
+    stroke: #fff;
+    stroke-width: 3px;
+}
+.colored:hover {
+    stroke-width: 5px;
+    cursor: pointer;
+}
+.color0{
+    fill: #e100ff
+}
+.color0:hover{
+    fill:#ec5cff
+}
+.color1 {
+    fill: #42f9ff;
+}
+.color1:hover{
+    fill: #5ffaff;
+}
+.color2 {
+    fill: #0099ff;
+}
+.color2:hover{
+    fill:#58bcff;
+}
+.color3 {
+    fill: #002fff;
+}
+.color3:hover{
+    fill:#4e6eff;
+}
+.color4 {
+    fill: #1fcf54;
+}
+.color4:hover{
+    fill:#33ff70;
+}
+.color5 {
+    fill: #ce0000;
+}
+.color5:hover{
+    fill:#ec3939;
+}
+
+.smiles {
+    font-size: 1em;
+}
+.legend{
+    position: absolute;
+
+}

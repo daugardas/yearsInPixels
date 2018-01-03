@@ -1,9 +1,8 @@
 let CELL_SIZE = 22;
-function createHeatMap(/* data,  */startYear, endYear) {
+function createHeatMap(startYear, endYear) {
     var width = 1250;
     var height = 160;
     var dx = 35;
-    var gridClass = 'js-date-grid day';
     //var formatColor = d3.scaleQuantize().domain([0, data.maxCount]).range(d3.range(NUMBER_OF_COLORS).map((d) => `color${d}`));
   
     var heatmapSvg = d3.select('.js-heatmap').selectAll('svg.heatmap')
@@ -61,7 +60,6 @@ function createHeatMap(/* data,  */startYear, endYear) {
         }
       });
 
-    let dayId = 1;
     var gElement = rect.selectAll('.day')
       // The heatmap will contain all the days in that year.
       .data((d) => {
@@ -69,14 +67,9 @@ function createHeatMap(/* data,  */startYear, endYear) {
         return d3.timeDays(new Date(d, 0, 1), new Date(d + 1, 0, 1));
       })
       .enter()
-      .append('g')
-        .attr('id', ()=>{
-          dayId++;
-          return dayId - 1;
-        });
+      .append('g');
     
       gElement.append('rect')
-        .attr('class', gridClass)
         .attr('width', CELL_SIZE)
         .attr('height', CELL_SIZE)
         .attr('x', (d) => d3.timeFormat('%U')(d) * CELL_SIZE + 20)
