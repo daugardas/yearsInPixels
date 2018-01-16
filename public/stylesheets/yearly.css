@@ -18,25 +18,9 @@ h1{
     stroke-width: 3px;
 }
 .day:hover {
-  stroke-width: 1px;
-}
-.color0{
-  fill: #e100ff
-}
-.color1 {
-  fill: #00f7ff;
-}
-.color2 {
-  fill: #0099ff;
-}
-.color3 {
-  fill: #002fff;
-}
-.color4 {
-  fill: #1fcf54;
-}
-.color5 {
-  fill: #ce0000;
+  fill: #dddddd;
+    stroke-width: 5px;
+    cursor: pointer;
 }
 .clickEvent {
   fill: #1900fd
@@ -63,4 +47,12 @@ h1{
 .results{
   width: 1250px;
   float: left;
+}
+.colored{
+  stroke: #fff;
+  stroke-width: 3px;
+}
+.colored:hover {
+  stroke-width: 5px;
+  cursor: pointer;
 }

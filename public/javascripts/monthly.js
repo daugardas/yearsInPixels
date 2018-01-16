@@ -1,9 +1,10 @@
 const cellSize = 70;
-
+const todayDate = d3.timeFormat(`%Y-%m-%d`)(new Date());
 function CreateMonthlyHeatMap(year, month){
     // initialize width and height
     const width = 500;
     const height = 500;
+
     var newWeek;
     var dayYCords = cellSize + 15;
     var dayNumYCords = cellSize + cellSize / 2 + 18;
@@ -54,8 +55,8 @@ function CreateMonthlyHeatMap(year, month){
         }
         return dayYCords;
       })
-      .attr('rx', '20')
-      .attr('ry', '20')
+      //.attr('rx', '20') these two makes round edges
+      //.attr('ry', '20')
       .attr('class', 'day');
 
     //day number
@@ -142,11 +143,11 @@ function CreateLegend(){
       .enter()
       .append('svg')
         .attr('width', 140)
-        .attr('height', 6 * size)
+        .attr('height', 7 * size)
       .append('g')
         .attr('transform', 'translate(0,0)')
         .selectAll('.legend-grid')
-        .data(() => d3.range(6))
+        .data(() => d3.range(7))
         .enter()
         .append('g');
         
@@ -180,27 +181,49 @@ function CreateLegend(){
               case 5:
                 return `- angry day`
                 break;
+              case 6:
+                return `- shitty day`;
+                break;
             }
           })
 }
+
+function loadMonth(){
+  $.ajax({
+    url: `monthly/days`,
+    type: `GET`,
+    dataType: `json`,
+  }).done((answer)=>{
+    answer.forEach(element => {
+      const date = element[0];
+      const color = element[1];
+      $(`#${date}`).find('rect').removeClass('day').addClass(`color${color} colored`);
+    });
+  }).fail((xhr, status, error)=>{
+    console.log('Error', error);
+  }).always((xhr, status)=>{
+    console.log('Month request completed');
+  });
+
+  
+  $(`#${todayDate}`).find('text').addClass('today');
+  //$(`#${todayDate}`).find('rect').removeClass('day').addClass('today');
+  /* let rect = $(`#${todayDate}`).find('rect');
+  let x = Number(rect.attr('x')), y = Number(rect.attr('y')), width = Number(rect.attr('width')), height = Number(rect.attr('height'));
+
+  let newRect = rect.before(`<rect class="day" width="${width}" height="${height}" x="${x}" y="${y}" rx="20" ry="20"></rect>`); */
+}
+
+function postPopUp(){
+  $('.dayForm').toggleClass('hidden');
+  $('.dayForm').find('input[name=date]').val(todayDate);
+}
+
+
 $(document).ready(()=>{
     CreateMonthlyHeatMap( new Date().getFullYear(), new Date().getMonth() );
     CreateLegend();
-    let user = 'daugiss';
-    $.ajax({
-      url: `monthly/${user}/${new Date().getFullYear()}/${new Date().getMonth()}`,
-      type: `GET`,
-      dataType: `json`,
-    }).done((answer)=>{
-      for (const date in answer.days) {
-        if (answer.days.hasOwnProperty(date )) {
-          const element = answer.days[date];
-          $(`#${date}`).find('rect').removeClass('day').addClass(`color${element} colored`);
-        }
-      }
-    }).fail((xhr, status, error)=>{
-      console.log('Error', error);
-    }).always((xhr, status)=>{
-      console.log('Month request completed');
-    });
+    loadMonth();
+    $(`#${todayDate}`).click(postPopUp);
+    $(`.dayForm`).find('button').click(postPopUp);
 });

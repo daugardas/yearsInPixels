@@ -4,11 +4,42 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
 var index = require('./routes/index');
 var yearly = require('./routes/yearly');
 var monthly = require('./routes/monthly');
+var login = require('./routes/login');
+var register = require('./routes/register');
+var logout = require('./routes/logout');
+
+var databases = require('./db_connections/databases');
+var url = databases.pixels;
 var app = express();
+
+
+// mongodb connection
+mongoose.connect(url);
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, "Connection error"));
+
+app.use(session({
+  secret: 'years in pixels',
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: db
+  })
+}));
+
+// make user ID available in templates
+app.use((req, res, next)=>{
+  res.locals.currentUser = req.session.userId;
+  next();
+});
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -25,6 +56,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/yearly', yearly);
 app.use('/monthly', monthly);
+app.use('/login', login);
+app.use('/register', register);
+app.use('/logout', logout);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

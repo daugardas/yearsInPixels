@@ -2,11 +2,63 @@ extends layout
 
 block scripts
   link(rel='stylesheet', href='/stylesheets/style.css')
+  link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
   script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+
+block navbar
+  if currentUser
+    nav.navbar.navbar-default
+      .container-fluid
+        .navbar-header
+          a.navbar-brand(href="#")= title
+        .nav.navbar-nav.navbar-right
+          p.navbar-text= userName
+          a.btn.btn-primary.navbar-btn(href="/logout") Log out
 block content
-  h1= title
-  a(href="/yearly")
-    | Go to yearly graph
-  br
-  a(href="/monthly")
-    | Go to monthly graph
+  if currentUser
+    .half-width
+      a.link-container.center-block.text-center(href="/yearly")
+        span Yearly
+    .half-width
+      a.link-container.center-block.text-center(href="/monthly")
+        span Monthly
+  else
+    h1= title
+      .forms
+        .half-width
+          .sign-form.center-block
+            // login form
+            
+            form(method='POST' action='/login')
+              h4 LOGIN
+              div.input-group
+                span.input-group-addon
+                  i.glyphicon.glyphicon-user
+                input#username.form-control(type='text', placeholder='Username' name='username')
+              div.input-group
+                span.input-group-addon
+                  i.glyphicon.glyphicon-lock
+                input#password.form-control(type='password' name='password' placeholder='Password')
+              button.btn.btn-primary.center-block(type='submit') Sign up
+        .half-width
+          .sign-form.center-block
+            // register form
+            h4 REGISTER
+            form(method='POST' action='/register')
+              div.input-group
+                span.input-group-addon
+                  i.glyphicon.glyphicon-user
+                input#username.form-control(type='text', placeholder='Username' name='username')
+              div.input-group
+                span.input-group-addon
+                  i.glyphicon.glyphicon-envelope
+                input#email.form-control(type='email', placeholder='Email' name='email')
+              div.input-group
+                span.input-group-addon
+                  i.glyphicon.glyphicon-lock
+                input#password.form-control(type='password' name='password' placeholder='Password')
+              div.input-group
+                span.input-group-addon
+                  i.glyphicon.glyphicon-lock
+                input#passwordConf.form-control(type='password' name='passwordConf' placeholder='Confirm password')
+              button.btn.btn-primary.center-block(type='submit') Register

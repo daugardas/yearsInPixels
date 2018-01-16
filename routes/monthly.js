@@ -1,29 +1,71 @@
 var express = require('express');
 var router = express.Router();
-var mongodb = require(`mongodb`);
+var Emotion = require('../models/emotion');
+var User = require('../models/user');
+var mid = require('../middleware/index');
+var bodyParser = require('body-parser');
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('monthly', { title: 'Monthly' });
+router.get('/',mid.loggedIn,function(req, res, next) {
+  User.findById(req.session.userId)
+    .exec((err, user)=>{
+      if(err) return next(err);
+
+      return res.render('monthly', { title: 'Monthly', userName: user.username});
+    });
+  
 });
 
-router.get(`/:user/:year/:month`, (req, res, next) => {
-  let answer = {
-    user: req.params.user,
-    year: req.params.year,
-    month: req.params.month,
-    days: {
-      '2018-01-01': 0,
-      '2018-01-02': 0,
-      '2018-01-03': 2,
-      '2018-01-04': 2,
-      '2018-01-05': 1,
-      '2018-01-06': 1,
-      '2018-01-23': 5,
-    },
-  };
+router.get(`/days`,mid.loggedIn,(req, res, next) => {
+  let answer = [];
 
-  res.setHeader('Content-Type', `application/json`);
-  res.send(JSON.stringify(answer));
+  User.findById(req.session.userId)
+    .exec((err, user)=>{
+      if(err) return next(err);
+
+      Emotion.findOne({username: user.username}, (err, result)=>{
+        if(err) return next(err);
+        if(result){
+          for (let i = 0; i < result.emotions.length; i++) {
+            answer.push([`${result.emotions[i].emotion.emotionDate}`, result.emotions[i].emotion.emotionValue]);
+          }
+          res.send(answer);
+        }
+      });
+  });
+
+});
+
+router.post('/currentDay',mid.loggedIn, (req, res, next)=>{
+  const day = {
+    emotion: {
+      emotionDate: req.body.date,
+      emotionValue: req.body.emotion,
+    }
+  };
+  User.findById(req.session.userId)
+    .exec((err, user)=>{
+      if(err) return next(err);
+
+      Emotion.findOne({username: user.username,'emotions.emotion.emotionDate': req.body.date}, (err, result)=>{
+        if(err) return next(err);
+        if(result){
+          for (let i = 0; i < result.emotions.length; i++) {
+            if(result.emotions[i].emotion.emotionDate === req.body.date){
+              result.emotions[i].emotion.emotionValue = req.body.emotion;
+              result.save();
+            }
+          }
+        } else{
+          Emotion.findOneAndUpdate({username: user.username},{ $push: {emotions: day } },(err, results)=>{
+            if(err) return next(err);
+          });
+        }
+      });
+
+    });
+  
+
+  res.redirect('/monthly');
 });
 
 module.exports = router;

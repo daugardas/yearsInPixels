@@ -1,4 +1,43 @@
 body{
-    font-family: 'Gloria Hallelujah', cursive;
-    font-size: 1em;
+    font-family: sans-serif;
+}
+.sign-form{
+    width: 300px;
+    padding: 5px;
+    border: 1px solid #d6d6d6;
+    border-radius: 5px;
+}
+.half-width{
+    width: 50%;
+    float: left;
+}
+.half-width:first-child .sign-form{
+    height: 228px;
+}
+.half-width:first-child .sign-form button{
+    margin-top: 75px;
+}
+.half-width:nth-child(2){
+    border-left: 1px solid #dbdbdb;
+}
+.forms{
+    margin-top: 150px;
+}
+h4{
+    text-align: center;
+}
+form button {
+    margin-top: 5px;
+}
+h1{
+    text-align: center;
+}
+.link-container {
+    width: 350px;
+    height: 200px;
+    background-color: #dff0ff;
+}
+.link-container span {
+    line-height: 200px;
+    font-size: 80px;
 }

@@ -67,7 +67,10 @@ function createHeatMap(startYear, endYear) {
         return d3.timeDays(new Date(d, 0, 1), new Date(d + 1, 0, 1));
       })
       .enter()
-      .append('g');
+      .append('g')
+        .attr('id', (d) => {
+          return d3.timeFormat(`%Y-%m-%d`)(d);
+        });
     
       gElement.append('rect')
         .attr('width', CELL_SIZE)
@@ -76,7 +79,7 @@ function createHeatMap(startYear, endYear) {
         .attr('y', (d) => d.getDay() * CELL_SIZE)
         // Add the colors to the grids.
         .attr('class', (d) => {
-          return `day color${Math.floor(Math.random() * (6 - 0)) + 0}`;
+          return `day`;
       });
       gElement.append('text')
         .attr('x', (d) => d3.timeFormat('%U')(d) * CELL_SIZE + 14)
@@ -112,11 +115,11 @@ function createHeatMap(startYear, endYear) {
       .enter()
       .append('svg')
         .attr('width', 200)
-        .attr('height', 6 * CELL_SIZE + dx)
+        .attr('height', 7 * CELL_SIZE + dx)
       .append('g')
         .attr('transform', 'translate(0,0)')
         .selectAll('.legend-grid')
-        .data(() => d3.range(6))
+        .data(() => d3.range(7))
         .enter()
         .append('g');
         
@@ -150,14 +153,31 @@ function createHeatMap(startYear, endYear) {
               case 5:
                 return `- angry day`
                 break;
+              case 6:
+                return `- shitty day`;
+                break;
             }
           })
           
 }
-
-$(document).ready(function(){
-    createHeatMap(2017,2020);
-    $(`rect`).click(() => {
-      $(this).addClass('clickEvent');
+function loadData(){
+  $.ajax({
+    url: `monthly/days`,
+    type: `GET`,
+    dataType: `json`,
+  }).done((answer)=>{
+    answer.forEach(element => {
+      const date = element[0];
+      const color = element[1];
+      $(`#${date}`).find('rect').removeClass('day').addClass(`color${color} colored`);
     });
+  }).fail((xhr, status, error)=>{
+    console.log('Error', error);
+  }).always((xhr, status)=>{
+    console.log('Month request completed');
+  });
+}
+$(document).ready(function(){
+    createHeatMap(2018,2019);
+    loadData();
 });
