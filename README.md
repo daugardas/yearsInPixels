@@ -1,0 +1,1 @@
+Personal project, idea came from a post, and i thought that it would be nice to make this in the browser as an app, to test myself.
