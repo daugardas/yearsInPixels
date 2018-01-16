@@ -6,39 +6,42 @@ function CreateMonthlyHeatMap(year, month){
     const height = 500;
 
     var newWeek;
-    var dayYCords = cellSize + 15;
-    var dayNumYCords = cellSize + cellSize / 2 + 18;
+    var dayYCords = cellSize + 15; // initialize the first rect y cords
+    var dayNumYCords = cellSize + cellSize / 2 + 18; // initialize the first day text y cords
+
+    // select the .monthCalendar div to this element,
     let heatmapSvg = d3.select('.monthCalendar')
         .selectAll('svg.heatmap')
         .enter()
-        .append('svg')
+        .append('svg') // and append svg element
           .data([month])
           .enter()
           .append('svg')
             .attr('width', width)
             .attr('height', height);
 
+    // append the main group svg element
     let mainGroup = heatmapSvg.append('g')
-      .attr('transfrom', 'translate(0,0)')
+      .attr('transfrom', 'translate(0,0)');
     
-
     //Generate the months calendar
     let heatmapGroup = mainGroup.selectAll('.day')
       .data((d) => {
-        return d3.timeDays(new Date(year, d, 1), new Date(year, d + 1, 1));
+        return d3.timeDays(new Date(year, d, 1), new Date(year, d + 1, 1)); // get the months day range
       })
       .enter()
-      .append('g')
+      .append('g') // and for every day append a new group svg element with id which represents that day
         .attr('id', (d) => {
           return d3.timeFormat(`%Y-%m-%d`)(d);
         });
+    
+    //append a rectangle for that specific group
     heatmapGroup.append('rect')
       .attr('width', cellSize)
       .attr('height', cellSize)
-      .attr('x', (d) => {
-        let x;
-        if(d.getDay() === 0){
-          x = 7 * cellSize - cellSize + 5;
+      .attr('x', (d) => { // places the day rectangle in some x cords
+        if(d.getDay() === 0){ // places the day text in some x cords which is in some rectangle
+          x = 7 * cellSize - cellSize + 5; // then to not use the 0 from the getDay(), we default to 7
           return x;
         }
         else{
@@ -46,7 +49,7 @@ function CreateMonthlyHeatMap(year, month){
           return x;
         }
       })
-      .attr('y', (d) => {
+      .attr('y', (d) => { // places the day rectangle in some y cords
         newWeek = d.getDay();
         let prevYCords = dayYCords;
         if(newWeek === 0){
@@ -60,12 +63,11 @@ function CreateMonthlyHeatMap(year, month){
       .attr('class', 'day');
 
     //day number
-    
     heatmapGroup.append('text')
-      .attr('x', (d) => {
+      .attr('x', (d) => { // places the day text in some x cords which is in some rectangle
         let x;
-        if(d.getDay() === 0){
-          x = 7 * cellSize - cellSize + 5 + cellSize / 2;
+        if(d.getDay() === 0){ // if day is sunday(which is 0)
+          x = 7 * cellSize - cellSize + 5 + cellSize / 2; // then to not use the 0 from the getDay(), we default to 7
           return x;
         }
         else{
@@ -73,7 +75,7 @@ function CreateMonthlyHeatMap(year, month){
           return x;
         }
       })
-      .attr('y', (d) => {
+      .attr('y', (d) => { // places the day text in some y cords which is in some rectangle
         newWeek = d.getDay();
         let prevYCords = dayNumYCords;
         if(newWeek === 0){
@@ -85,8 +87,9 @@ function CreateMonthlyHeatMap(year, month){
       .attr('class', 'dayNum')
       .style('text-anchor', 'middle')
       .text((d) => {
-        return d3.timeFormat('%-d')(d);
+        return d3.timeFormat('%-d')(d); // just render the day number
       })
+
     //Render Month name
     mainGroup.append('text')
       .attr('class', 'monthName')
@@ -96,6 +99,7 @@ function CreateMonthlyHeatMap(year, month){
       .text((d) => {
         return d3.timeFormat('%B')(new Date(year, month));
     });
+
     // Render week days
     mainGroup.append('g')
       .attr('transform', `translate(${cellSize/2 + 3.5},80)`)
@@ -136,6 +140,9 @@ function CreateMonthlyHeatMap(year, month){
 }
 function CreateLegend(){
   const size = 20;
+
+  // creates the legend which shows what color represents what kind of day
+
   var legendSvg = d3.select('.legend').selectAll('svg.legend')
       .enter()
       .append('svg')
@@ -150,6 +157,7 @@ function CreateLegend(){
         .data(() => d3.range(7))
         .enter()
         .append('g');
+        
         
         legendSvg.append('rect')
           .attr('width', size)
@@ -188,7 +196,7 @@ function CreateLegend(){
           })
 }
 
-function loadMonth(){
+function loadMonth(){ // colors the month according to the data got from the server
   $.ajax({
     url: `monthly/days`,
     type: `GET`,
@@ -204,26 +212,62 @@ function loadMonth(){
   }).always((xhr, status)=>{
     console.log('Month request completed');
   });
-
-  
   $(`#${todayDate}`).find('text').addClass('today');
-  //$(`#${todayDate}`).find('rect').removeClass('day').addClass('today');
-  /* let rect = $(`#${todayDate}`).find('rect');
-  let x = Number(rect.attr('x')), y = Number(rect.attr('y')), width = Number(rect.attr('width')), height = Number(rect.attr('height'));
-
-  let newRect = rect.before(`<rect class="day" width="${width}" height="${height}" x="${x}" y="${y}" rx="20" ry="20"></rect>`); */
 }
+
+let form;
+let clickedDate;
 
 function postPopUp(){
-  $('.dayForm').toggleClass('hidden');
-  $('.dayForm').find('input[name=date]').val(todayDate);
+  clickedDate = $(this).attr('id'); //find the date of the clicked day
+
+  const clickedDateObj = new Date(clickedDate); //assign date objects, so that the if statement is more readable
+  const todayDateObj = new Date(todayDate);
+  
+  if( clickedDateObj.getTime() > todayDateObj.getTime() ) { // if clicked dates miliseconds are larger than current days, then you just cant do anything
+    console.log("You cannot edit this day, cause it's yet to come");
+    
+  } else if( $(this).find('rect').hasClass('colored') ) { // if this date element is a colored(already has some emotion in it) one,
+    // then show confirmation window if they want to edit it
+    
+    const warning = `<form>` +
+                    `<div class="form-group">` +
+                      `<label>Are you sure you want to edit this day?</label>`+
+                    `</div> ` +
+                    `<div class="btn-group center-block" style="width: 210px;">`+
+                      `<button class="btn btn-success" type="button" onclick="displayForm()">I'm sure!</button>`+
+                      `<button class="btn btn-danger" type="button" onclick="closePostPopUp()">I'm not sure!</button>`+
+                    `</div>`+
+                  `</form>`;
+
+    $('.dayForm').html(warning);
+    if($('.dayForm').hasClass('hidden')){ // if the day form is hidden,
+      $('.dayForm').removeClass('hidden'); //  just show it.
+  
+    }
+  } else { // if the clicked element is not yet colored
+    $('.dayForm').html(form); //display the form for the emotion to be sent to db
+    $('.dayForm').find('input[name=date]').val(clickedDate); // insert the clicked date to the non-editable input value
+    if($('.dayForm').hasClass('hidden')){ // if the day form is hidden,
+      $('.dayForm').removeClass('hidden'); //  just show it.
+  
+    }
+  }
 }
 
+function displayForm(){
+  $('.dayForm').html(form);
+  $('.dayForm').find('input[name=date]').val(clickedDate); // insert the clicked date to the non-editable input value
+}
+
+function closePostPopUp(){
+  $('.dayForm').addClass('hidden');
+}
 
 $(document).ready(()=>{
     CreateMonthlyHeatMap( new Date().getFullYear(), new Date().getMonth() );
     CreateLegend();
     loadMonth();
-    $(`#${todayDate}`).click(postPopUp);
-    $(`.dayForm`).find('button').click(postPopUp);
+    form = $('.dayForm').html();
+    $('.monthCalendar svg g').find('g').click(postPopUp);
 });
