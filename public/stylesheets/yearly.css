@@ -1,58 +1,70 @@
 body {
-    font: 15px sans-serif;
-    shape-rendering: crispEdges;
+  font: 15px sans-serif;
+  shape-rendering: crispEdges;
 }
+
 svg {
   margin-bottom: 10px;
 }
-svg:last-child{
+
+svg:last-child {
   margin-bottom: 0;
 }
-h1{
+
+h1 {
   text-align: center;
   font-family: 'Gloria Hallelujah', cursive;
 }
+
 .day {
-    fill: #eee;
-    stroke: #fff;
-    stroke-width: 3px;
+  fill: #eee;
+  stroke: #fff;
+  stroke-width: 3px;
 }
+
 .day:hover {
   fill: #dddddd;
-    stroke-width: 5px;
-    cursor: pointer;
+  cursor: pointer;
 }
+
 .clickEvent {
   fill: #1900fd
 }
-.dayName{
+
+.dayName {
   font-size: 10px;
   text-anchor: middle;
   display: none;
 }
+
 .smiles {
   font-size: 20px;
 }
+
 .weekDays {
   font-size: 8px
 }
-.pixels{
+
+.pixels {
   width: 100%;
 }
-.js-legend{
+
+.js-legend {
   height: 150px;
   width: 170px;
   float: right;
 }
-.results{
+
+.results {
   width: 1250px;
   float: left;
 }
-.colored{
+
+.colored {
   stroke: #fff;
   stroke-width: 3px;
 }
+
 .colored:hover {
-  stroke-width: 5px;
   cursor: pointer;
 }

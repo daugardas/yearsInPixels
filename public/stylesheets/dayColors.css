@@ -1,42 +1,62 @@
-.color0{
-    fill: #e100ff
+/* fantastic */
+.color0 {
+  fill: #e100ff
 }
-.color0:hover{
-    fill:#ec5cff
+
+.color0:hover {
+  fill: #9e00b3
 }
+
+
+/* happy */
 .color1 {
-    fill: #42f9ff;
-  }
-  .color1:hover{
-    fill: #5ffaff;
-  }
-  .color2 {
-    fill: #0099ff;
-  }
-  .color2:hover{
-    fill:#58bcff;
-  }
-  .color3 {
-    fill: #002fff;
-  }
-  .color3:hover{
-    fill:#4e6eff;
-  }
-  .color4 {
-    fill: #1fcf54;
-  }
-  .color4:hover{
-    fill:#33ff70;
-  }
-  .color5 {
-    fill: #ce0000;
-  }
-  .color5:hover{
-    fill:#ec3939;
-  }
-  .color6{
-    fill: #7e5407;
-  }
-  .color6:hover{
-    fill: #a17219;
-  }
+  fill: #15f7ff;
+}
+
+.color1:hover {
+  fill: #00bac0;
+}
+
+/* average */
+.color2 {
+  fill: #0099ff;
+}
+
+.color2:hover {
+  fill: #0068ad;
+}
+
+/* sad */
+.color3 {
+  fill: #002fff;
+}
+
+.color3:hover {
+  fill: #0023c0;
+}
+
+/* tired */
+.color4 {
+  fill: #1fcf54;
+}
+
+.color4:hover {
+  fill: #008628;
+}
+
+/* angry */
+.color5 {
+  fill: #ce0000;
+}
+
+.color5:hover {
+  fill: #a80000;
+}
+/* shitty */
+.color6 {
+  fill: #c98200;
+}
+
+.color6:hover {
+  fill: #573800;
+}

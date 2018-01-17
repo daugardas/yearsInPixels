@@ -30,7 +30,6 @@ h1{
 }
 .monthCalendar .day:hover {
     fill: #dddddd;
-    stroke-width: 10px;
     cursor: pointer;
 }
 .weekName{
@@ -46,7 +45,6 @@ h1{
     stroke-width: 8px;
 }
 .colored:hover {
-    stroke-width: 10px;
     cursor: pointer;
 }
 .smiles {

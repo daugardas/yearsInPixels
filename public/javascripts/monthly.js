@@ -139,7 +139,7 @@ function CreateMonthlyHeatMap(year, month){
         });
 }
 function CreateLegend(){
-  const size = 20;
+  const size = 30;
 
   // creates the legend which shows what color represents what kind of day
 
@@ -167,30 +167,30 @@ function CreateLegend(){
           .attr('class', (d) => `day color${d}`);  
         legendSvg.append('text')
           .attr('x', (d) => size + 5)
-          .attr('y', (d) => d * size + size / 2 + 6)
+          .attr('y', (d) => d * size + size / 2 + 5)
           .attr('class', (d) => 'smiles')
           .text((d) => {
             switch (d) {
               case 0:
-                return `- fantastic day`
+                return `- fantastic`
                 break;
               case 1:
-                return `- happy day`
+                return `- happy`
                 break;
               case 2:
-                return `- average day`
+                return `- average`
                 break;
               case 3:
-                return `- sad day`
+                return `- sad`
                 break;
               case 4:
-                return `- tired day`
+                return `- tired`
                 break;
               case 5:
-                return `- angry day`
+                return `- angry`
                 break;
               case 6:
-                return `- shitty day`;
+                return `- shitty`;
                 break;
             }
           })
