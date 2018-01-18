@@ -209,8 +209,6 @@ function loadMonth(){ // colors the month according to the data got from the ser
     });
   }).fail((xhr, status, error)=>{
     console.log('Error', error);
-  }).always((xhr, status)=>{
-    console.log('Month request completed');
   });
   $(`#${todayDate}`).find('text').addClass('today');
 }

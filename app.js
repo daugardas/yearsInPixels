@@ -15,13 +15,14 @@ var login = require('./routes/login');
 var register = require('./routes/register');
 var logout = require('./routes/logout');
 
-var databases = require('./db_connections/databases');
-var url = databases.pixels;
+//var databases = require('./db_connections/databases');
+//var url = databases.pixels;
+var mongoDatabase = process.env.MONGODB_URI || 'mongodb://daugardas:daugardas@ds135917.mlab.com:35917/testyearsinpixels';
+
 var app = express();
 
-
 // mongodb connection
-mongoose.connect(url);
+mongoose.connect(mongoDatabase);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, "Connection error"));
 

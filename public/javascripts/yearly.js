@@ -63,7 +63,6 @@ function createHeatMap(startYear, endYear) {
     var gElement = rect.selectAll('.day')
       // The heatmap will contain all the days in that year.
       .data((d) => {
-        //console.log( d3.timeDays(new Date(d, 0, 1), new Date(d + 1, 0, 1) ) );
         return d3.timeDays(new Date(d, 0, 1), new Date(d + 1, 0, 1));
       })
       .enter()
@@ -136,25 +135,25 @@ function createHeatMap(startYear, endYear) {
           .text((d) => {
             switch (d) {
               case 0:
-                return `- fantastic day`
+                return `- fantastic`
                 break;
               case 1:
-                return `- happy day`
+                return `- happy`
                 break;
               case 2:
-                return `- average day`
+                return `- average`
                 break;
               case 3:
-                return `- sad day`
+                return `- sad`
                 break;
               case 4:
-                return `- tired day`
+                return `- tired`
                 break;
               case 5:
-                return `- angry day`
+                return `- angry`
                 break;
               case 6:
-                return `- shitty day`;
+                return `- shitty`;
                 break;
             }
           })
@@ -173,8 +172,6 @@ function loadData(){
     });
   }).fail((xhr, status, error)=>{
     console.log('Error', error);
-  }).always((xhr, status)=>{
-    console.log('Month request completed');
   });
 }
 $(document).ready(function(){
