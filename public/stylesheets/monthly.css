@@ -83,3 +83,18 @@ h1{
 .dayform .btn-group{
     width: 130px;
 }
+.change-month {
+    font-size: 40px;
+    position: absolute !important; 
+    margin-top: 85px;
+}
+.change-month:hover {
+    color: #707070;
+    cursor: pointer;
+}
+.back-button{
+    margin-left: 20px;
+}
+.foward-button{
+    margin-left:  440px;
+}

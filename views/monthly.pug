@@ -22,12 +22,14 @@ block content
   div(class="pixels" style="height: 500px;")
     div(class="results")
       div(class="monthCalendar")
+        i.back-button.change-month.glyphicon.glyphicon-arrow-left(type="button" onclick="minusMonth()")
+        i.foward-button.change-month.glyphicon.glyphicon-arrow-right(type="button" onclick="plusMonth()")
     div(class="legend")
   div(class="dayForm center-block hidden")
     form(method='POST' action='/monthly/currentDay')
       div.form-group
         input(class="form-control" type="text" name="date" readonly)
-        label(for='emotion') How did you feel today?
+        label(for='emotion') How did you feel?
         select(class="form-control" name="emotion")
           option(value="0") Fantastic
           option(value="1") Happy

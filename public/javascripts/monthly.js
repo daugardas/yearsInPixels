@@ -218,7 +218,7 @@ let clickedDate;
 
 function postPopUp(){
   clickedDate = $(this).attr('id'); //find the date of the clicked day
-
+  console.log(clickedDate);
   const clickedDateObj = new Date(clickedDate); //assign date objects, so that the if statement is more readable
   const todayDateObj = new Date(todayDate);
   
@@ -262,10 +262,40 @@ function closePostPopUp(){
   $('.dayForm').addClass('hidden');
 }
 
+let fullYear = new Date().getFullYear();
+let fullMonth = new Date().getMonth();
+function minusMonth(){
+  if(fullMonth === 0){
+    fullYear--;
+    fullMonth = 11;
+  } else {
+    fullMonth--;
+  }
+  console.log(fullYear, fullMonth)
+  $('.monthCalendar svg').remove();
+  CreateMonthlyHeatMap(fullYear, fullMonth);
+  loadMonth();
+  $('.monthCalendar svg g g').click(postPopUp);
+}
+
+function plusMonth(){
+  if(fullMonth === 11){
+    fullYear++;
+    fullMonth = 0;
+  } else{
+    fullMonth++;
+  }
+
+  console.log(fullYear, fullMonth)
+  $('.monthCalendar svg').remove();
+  CreateMonthlyHeatMap(fullYear, fullMonth);
+  loadMonth();
+  $('.monthCalendar svg g g').click(postPopUp);
+}
 $(document).ready(()=>{
-    CreateMonthlyHeatMap( new Date().getFullYear(), new Date().getMonth() );
+    CreateMonthlyHeatMap(fullYear, fullMonth);
     CreateLegend();
     loadMonth();
     form = $('.dayForm').html();
-    $('.monthCalendar svg g').find('g').click(postPopUp);
+    $('.monthCalendar svg g g').click(postPopUp);
 });
