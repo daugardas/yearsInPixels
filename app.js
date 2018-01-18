@@ -15,7 +15,7 @@ var login = require('./routes/login');
 var register = require('./routes/register');
 var logout = require('./routes/logout');
 
-var mongoDatabase = process.env.MONGODB_URI;
+var mongoDatabase = process.env.MONGODB_URI || 'mongodb://daugardas:daugardas@ds135917.mlab.com:35917/testyearsinpixels';
 
 var app = express();
 
