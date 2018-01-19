@@ -45,7 +45,7 @@ h1 {
   font-size: 8px
 }
 
-.pixels {
+/* .pixels {
   width: 100%;
 }
 
@@ -58,7 +58,7 @@ h1 {
 .results {
   width: 1250px;
   float: left;
-}
+} */
 
 .colored {
   stroke: #fff;

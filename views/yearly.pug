@@ -19,8 +19,8 @@ block navbar
           p.navbar-text= userName
           a.btn.btn-primary.navbar-btn(href="/logout") Log out
 block content
-  div(class="pixels")
-    div(class="results")
-      div(class="js-heatmap")
-      div(class="js-months")
-    div(class="js-legend")
+  .row
+    .results.col-sm-10
+      .js-heatmap
+      .js-months
+    .js-legend.col-sm-2

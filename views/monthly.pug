@@ -19,12 +19,12 @@ block navbar
           p.navbar-text= userName
           a.btn.btn-primary.navbar-btn(href="/logout") Log out
 block content
-  div(class="pixels" style="height: 500px;")
-    div(class="results")
-      div(class="monthCalendar")
+  .row
+    .col-sm-8
+      .monthCalendar
         i.back-button.change-month.glyphicon.glyphicon-arrow-left(type="button" onclick="minusMonth()")
         i.foward-button.change-month.glyphicon.glyphicon-arrow-right(type="button" onclick="plusMonth()")
-    div(class="legend")
+    .legend.col-sm-4
   div(class="dayForm center-block hidden")
     form(method='POST' action='/monthly/currentDay')
       div.form-group

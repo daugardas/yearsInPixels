@@ -6,27 +6,26 @@ h1{
     text-align: center;
     font-family: 'Gloria Hallelujah', cursive;
 }
-.monthCalendar svg {
-    border: 1px solid #cacaca;
-    border-radius: 15px; 
-}
-.results{
-    width: 100%;
-    float: left;
-}
-.legend{
-    height: 150px;
-    width: 9%;
+.monthCalendar{
+    background-color: ghostwhite;
     float: right;
+    box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.2);
+    padding: 15px;
+}
+.legend svg{
+    float: right;
+    margin-right: 30px;
+    padding: 10px 15px;
+    background-color: ghostwhite;
+    box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.2);
 }
 .monthName{
-    fill: black;
+    fill: #474747;
     font-size: 50px;
 }
 .day {
     fill: #eee;
-    stroke: #fff;
-    stroke-width: 8px;
+
 }
 .monthCalendar .day:hover {
     fill: #dddddd;
@@ -35,30 +34,19 @@ h1{
 .weekName{
     font-size: 10px;
 }
-.monthCalendar{
-    width: 500px;
-    height: 500px;
-    margin: auto;
-}
-.colored{
-    stroke: #fff;
-    stroke-width: 8px;
-}
+
 .colored:hover {
     cursor: pointer;
 }
 .smiles {
-    font-size: 1em;
-}
-.legend{
-    position: absolute;
+    font-size: 12px;
 }
 .today{
-    stroke: rgb(255, 0, 0);
-    stroke-width: 1.5px;
+    stroke: #333333;
+    stroke-width: 5px;
 }
-.today:hover{
-    stroke-width: 1.5px;
+.today-text{
+    font-weight: 900;
 }
 .dayForm{
     width: 300px;
@@ -86,15 +74,16 @@ h1{
 .change-month {
     font-size: 40px;
     position: absolute !important; 
-    margin-top: 85px;
+    margin-top: 40px;
+    color: #474747;
 }
 .change-month:hover {
     color: #707070;
     cursor: pointer;
 }
 .back-button{
-    margin-left: 20px;
+    margin-left: 140px;
 }
 .foward-button{
-    margin-left:  440px;
+    margin-left: 500px;
 }
