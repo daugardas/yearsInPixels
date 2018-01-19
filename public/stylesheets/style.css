@@ -41,3 +41,9 @@ h1{
     line-height: 200px;
     font-size: 80px;
 }
+.desc {
+    width: 60%;
+    color: #333333;
+    margin: 10px auto 0 auto;
+    
+}
