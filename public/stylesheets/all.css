@@ -3,10 +3,33 @@
     font-family: 'Montserrat', sans-serif;
     
 }
-footer {
-    position: fixed;
+/*.footer {
+    background-color: rgb(94, 200, 204);
     left: 0;
     bottom: 0;
     width: 100%;
+    height: 200px;
+    color: #faffff;
+    text-align: center;
+}*/
+* {
+    margin: 0;
+}
+html, body {
+    height: 100%;
+}
+.wrapper {
+    min-height: 100%;
+    height: 100%;
+    margin: 0 auto -100px; /* the bottom margin is the negative value of the footer's height */
+}
+.footer, .push {
+    height: 100px; /* .push must be the same height as .footer */
+}
+.footer {
+    background-color: #c0e6ff;
+    color:#f7f7f7;
+}
+.alpha-warning {
     text-align: center;
 }
