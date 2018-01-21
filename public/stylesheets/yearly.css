@@ -17,13 +17,11 @@ h1 {
 }
 
 .day {
-  fill: #eee;
   stroke: #fff;
   stroke-width: 3px;
 }
 
 .day:hover {
-  fill: #dddddd;
   cursor: pointer;
 }
 

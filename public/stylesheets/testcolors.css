@@ -1,0 +1,14 @@
+.tests {
+  fill: #ffcb86; /*excited*/
+  fill: #faf734; /* happy*/
+  fill: #94edff;/*calm*/
+  fill: #c9d2e9;/* focused*/
+  fill: #d9a6e4;/* rested*/
+  fill: #962e65;/* overwhelmed*/
+  fill: #bcce34;/*sick*/
+  fill: #d10000;/* frustrated*/
+  fill: #265bbd;/* tired*/
+  fill: #c4c4c4;/* sad*/
+  fill: #657475;/* scattered*/
+  fill: #51c516;/* nervous*/
+}
