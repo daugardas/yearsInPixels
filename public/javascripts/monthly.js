@@ -1,10 +1,8 @@
 const cellSize = 90;
 const todayDate = d3.timeFormat(`%Y-%m-%d`)(new Date());
-let moods = [ /*excited*/ "#ffcb86", /*happy*/ "#faf734", /*calm*/ "#94edff", /*focused*/ "#c9d2e9", /*rested*/ "#d9a6e4",
-  /*overwhelmed*/
-  "#962e65", /*sick*/ "#bcce34", /*frustrated*/ "#d10000", /*tired*/ "#265bbd",
-  /*sad*/
-  "#c4c4c4", /*scattered*/ "#657475", /*nervous*/ "#51c516"
+let moods = [ /*0excited*/ "#ffcb86", /*1happy*/ "#faf734", /*2calm*/ "#94edff", /*3focused*/ "#c9d2e9", /*4rested*/ "#d9a6e4",
+  /*5Energetic*/"#ff5ea1",/*6overwhelmed*/"#962e65", /*7sick*/ "#bcce34", /*8tired*/ "#265bbd", /*9frustrated*/ "#d10000",
+  /*10sad*/"#c4c4c4", /*11scattered*/ "#657475", /*12nervous*/ "#51c516"
 ];
 
 function CreateMonthlyHeatMap(year, month) {
@@ -42,7 +40,8 @@ function CreateMonthlyHeatMap(year, month) {
     .append('g') // and for every day append a new group svg element with id which represents that day
     .attr('id', (d) => {
       return d3.timeFormat(`%Y-%m-%d`)(d);
-    });
+    })
+    .attr('class', 'day');
 
   //append defs for gradient
   let grad = heatmapGroup.append('defs')
@@ -81,10 +80,10 @@ function CreateMonthlyHeatMap(year, month) {
         answer = prevYCords;
       }
       return spacingY * answer;
-    })
+    });
     //.attr('rx', '20') these two makes round edges
     //.attr('ry', '20')
-    .attr('class', 'day');
+    //.attr('class', 'day');
 
   //day number
   heatmapGroup.append('text')
@@ -214,27 +213,30 @@ function CreateLegend() {
           return `- Focused / Productive`
           break;
         case 4:
-          return `- Rested / Energetic`
+          return `- Rested`
           break;
         case 5:
-          return `- Overwhelmed / Stressed`
+          return `- Energetic`;
           break;
         case 6:
-          return `- Sick / Headache`
+          return `- Overwhelmed / Stressed`
           break;
         case 7:
-          return `- Frustrated / Angry`;
+          return `- Sick / Headache`
           break;
         case 8:
           return `- Tired`;
           break;
         case 9:
-          return `- Sad / Hopeless`;
+          return `- Frustrated / Angry`;
           break;
         case 10:
-          return `- Scattered`;
+          return `- Sad / Hopeless`;
           break;
         case 11:
+          return `- Scattered`;
+          break;
+        case 12:
           return `- Nervous / Anxious`;
           break;
       }
@@ -242,6 +244,7 @@ function CreateLegend() {
 }
 
 function gradient(date, colors) { // colors the day in gradient
+  $(`#${date} rect`).addClass('colored');
   let gradient = d3.select(`g[id="${date}"]`).select(`linearGradient`); // selects groups linearGradient elment
   gradient.selectAll('stop').remove(); //and removes the current gradients in it
   for (let i = 0; i < colors.length; i++) { // goes through gradient colors loop
@@ -365,7 +368,9 @@ function plusMonth() {
   loadMonth();
   $('.monthCalendar svg g g').click(postPopUp);
 }
-
+function addMood(){
+  
+}
 
 $(document).ready(() => {
   CreateMonthlyHeatMap(fullYear, fullMonth);

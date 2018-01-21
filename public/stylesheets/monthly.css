@@ -23,13 +23,13 @@ h1{
     fill: #474747;
     font-size: 50px;
 }
-/* .day {
-} */
 .monthCalendar .day:hover {
-    /* fill: #dddddd; */
     stroke: #b4b4b4;
     stroke-width: 4px;
     cursor: pointer;
+}
+.dayNum {
+    stroke-width: 0;
 }
 .weekName{
     font-size: 10px;
@@ -49,8 +49,8 @@ h1{
     font-weight: 900;
 }
 .dayForm{
-    width: 300px;
-    height: 160px;
+    width: 500px;
+    height: 200px;
     left: 0;
     right: 0;
     z-index: 999;
@@ -68,9 +68,7 @@ h1{
 .hidden{
     display: none;
 }
-.dayform .btn-group{
-    width: 130px;
-}
+
 .change-month {
     font-size: 40px;
     position: absolute !important; 
