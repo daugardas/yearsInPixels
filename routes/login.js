@@ -10,6 +10,7 @@ var mid = require('../middleware');
 
 router.post(`/`, (req,res, next)=>{
     if(req.body.username && req.body.password){
+      req.body.username = req.body.username.toLowerCase();
         User.authenticate(req.body.username, req.body.password, (error, user)=>{
           if(error || !user){
             let err;

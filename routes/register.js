@@ -17,7 +17,7 @@ router.post(`/`, (req,res, next)=>{
             err.status = 400;
             return next(err);
         };
-
+        req.body.username = req.body.username.toLowerCase();
         let userData = {
             email: req.body.email,
             username: req.body.username,
