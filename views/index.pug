@@ -30,37 +30,50 @@ block content
       .half-width
         .sign-form.center-block
           // login form
-            
           form(method='POST' action='/login')
             h4 LOGIN
+            if logFieldsErr
+              p.alert.alert-danger= logFieldsErr
             div.input-group
               span.input-group-addon
                 i.glyphicon.glyphicon-user
-              input#username.form-control(type='text', placeholder='Username' name='username')
+              input#login-user.form-control(type='text', placeholder='Username' name='username')
+            if userErr
+              p.alert.alert-danger= userErr
             div.input-group
               span.input-group-addon
                 i.glyphicon.glyphicon-lock
-              input#password.form-control(type='password' name='password' placeholder='Password')
+              input#login-pass.form-control(type='password' name='password' placeholder='Password')
+            if passErr
+              p.alert.alert-danger= passErr
             button.btn.btn-primary.center-block(type='submit') Sign up
       .half-width
         .sign-form.center-block
           // register form
           h4 REGISTER
           form(method='POST' action='/register')
+            if regFieldsErr
+              p.alert.alert-danger= regFieldsErr
             div.input-group
               span.input-group-addon
                 i.glyphicon.glyphicon-user
-              input#username.form-control(type='text', placeholder='Username' name='username')
+              input#reg-user.form-control(type='text', placeholder='Username' name='username')
+            if regUserErr
+              p.alert.alert-danger= regUserErr
             div.input-group
               span.input-group-addon
                 i.glyphicon.glyphicon-envelope
-              input#email.form-control(type='email', placeholder='Email' name='email')
+              input#reg-email.form-control(type='email', placeholder='Email' name='email')
+            if regEmailErr
+              p.alert.alert-danger= regEmailErr
             div.input-group
               span.input-group-addon
                 i.glyphicon.glyphicon-lock
-              input#password.form-control(type='password' name='password' placeholder='Password')
+              input#reg-pass.form-control(type='password' name='password' placeholder='Password')
             div.input-group
               span.input-group-addon
                 i.glyphicon.glyphicon-lock
-              input#passwordConf.form-control(type='password' name='passwordConf' placeholder='Confirm password')
+              input#reg-passConf.form-control(type='password' name='passwordConf' placeholder='Confirm password')
+            if regPassMatchErr
+              p.alert.alert-danger= regPassMatchErr
             button.btn.btn-primary.center-block(type='submit') Register
