@@ -249,17 +249,23 @@ function gradient(date, colors) { // colors the day in gradient
   gradient.selectAll('stop').remove(); //and removes the current gradients in it
   for (let i = 0; i < colors.length; i++) { // goes through gradient colors loop
     const element = colors[i];
-    if (i === 0 || i === colors.length - 1) { // if the grad color is the first or the last one
+    console.log(date, element);
+    
+    if (i === 0) { // if the grad color is the first
       gradient.append('stop') // then just append one element
         .attr(`offset`, `${element[1]}%`)
         .attr(`style`, `stop-color: ${element[0]}; stop-opacity: 1`);
+    } else if(i === colors.length - 1){ // if the grad color is the last one
+      gradient.append('stop') // then just append one element
+        .attr(`offset`, `${100 - element[1]}%`) // but offset it by substracting moods percentage from 100
+        .attr(`style`, `stop-color: ${element[0]}; stop-opacity: 1`);
     } else { // if the grad color is somewhere in the middle
       gradient.append('stop') // then append two elements, because they need to have their lines straight
-        .attr(`offset`, `${element[1]}%`)
+        .attr(`offset`, `${colors[i - 1][1]}%`)
         .attr(`style`, `stop-color: ${element[0]}; stop-opacity: 1`);
 
       gradient.append('stop')
-        .attr(`offset`, `${colors[i + 1][1]}%`) // offsets to the next colors array offset, so basically it sets the ending
+        .attr(`offset`, `${100 - colors[i + 1][1]}%`) // offsets to the next colors array offset, offset it by substracting moods percentage from 100 so basically it sets the ending
         .attr(`style`, `stop-color: ${element[0]}; stop-opacity: 1`);
     }
   }
@@ -273,20 +279,18 @@ function loadMonth() { // colors the month according to the data got from the se
   }).done((answer) => {
     answer.forEach(element => {
       const date = element[0];
-      const color = element[1];
-      //$(`#${date}`).find('rect').removeClass('day').addClass(`color${color} colored`);
-      let colorArr = [
-        [moods[color], 0],
-        [moods[color], 100]
-      ];
-      gradient(date, colorArr);
+      let colors = [];
+      element[1].forEach(mood => {
+        colors.push([moods[mood[0]], mood[1]]);
+      });
+      colors.sort((a,b)=> a[1] - b[1]);
+      gradient(date, colors);
     });
   }).fail((xhr, status, error) => {
     console.log('Error', error);
   });
   $(`#${todayDate}`).find('rect').addClass('today');
   $(`#${todayDate}`).find('text').addClass('today-text');
-  //gradient("2018-01-21", [["#e100ff", 10],["#15f7ff", 10],["#0099ff", 50],["#002fff", 80]]); // this was a test
 }
 
 let form;
@@ -302,24 +306,11 @@ function postPopUp() {
 
   } else if ($(this).find('rect').hasClass('colored')) { // if this date element is a colored(already has some emotion in it) one,
     // then show confirmation window if they want to edit it
-
-    const warning = `<form>` +
-      `<div class="form-group">` +
-      `<label>Are you sure you want to edit this day?</label>` +
-      `</div> ` +
-      `<div class="btn-group center-block" style="width: 210px;">` +
-      `<button class="btn btn-success" type="button" onclick="displayForm()">I'm sure!</button>` +
-      `<button class="btn btn-danger" type="button" onclick="closePostPopUp()">I'm not sure!</button>` +
-      `</div>` +
-      `</form>`;
-
-    $('.dayForm').html(warning);
-    if ($('.dayForm').hasClass('hidden')) { // if the day form is hidden,
-      $('.dayForm').removeClass('hidden'); //  just show it.
-
+    if ($('.confirmation').hasClass('hidden')) { // if the day form is hidden,
+        $('.confirmation').removeClass('hidden'); //  just show it.
     }
+
   } else { // if the clicked element is not yet colored
-    $('.dayForm').html(form); //display the form for the emotion to be sent to db
     $('.dayForm').find('input[name=date]').val(clickedDate); // insert the clicked date to the non-editable input value
     if ($('.dayForm').hasClass('hidden')) { // if the day form is hidden,
       $('.dayForm').removeClass('hidden'); //  just show it.
@@ -329,14 +320,17 @@ function postPopUp() {
 }
 
 function displayForm() {
-  $('.dayForm').html(form);
   $('.dayForm').find('input[name=date]').val(clickedDate); // insert the clicked date to the non-editable input value
+  $('.confirmation').addClass('hidden');
+  $('.dayForm').removeClass('hidden');
 }
 
 function closePostPopUp() {
+  $('.confirmation').addClass('hidden');
+}
+function closeFormPopUp(){
   $('.dayForm').addClass('hidden');
 }
-
 let fullYear = new Date().getFullYear();
 let fullMonth = new Date().getMonth();
 
@@ -353,7 +347,6 @@ function minusMonth() {
   loadMonth();
   $('.monthCalendar svg g g').click(postPopUp);
 }
-
 function plusMonth() {
   if (fullMonth === 11) {
     fullYear++;
@@ -368,14 +361,122 @@ function plusMonth() {
   loadMonth();
   $('.monthCalendar svg g g').click(postPopUp);
 }
+let sliders = {};
+let slidesCount = 0;
+
 function addMood(){
-  
+  if(slidesCount === 0){
+    $(`.slider`).val(100);
+  }
+  slidesCount++;
+  $('.dayForm .form-group').append(`<div class="mood" id="mood${slidesCount}"></div>`);
+  //$(`#mood${slidesCount}`).html(moodSelector);
+  $('#mood0 select').clone().appendTo(`#mood${slidesCount}`);
+  $(`#mood${slidesCount} select`).attr(`name`, `emotion${slidesCount}`)
+  $(`#mood${slidesCount} select`).val(slidesCount);
+  $(`#mood${slidesCount}`).append(`<div class="mood-slider"></div>`);
+  let input = `<input class="slider" id="mood${slidesCount}-slider" name="mood${slidesCount}-slider" type="range" min="0" max="100" value="0" step="5" oninput="sliderChange('${slidesCount}')">`;
+  let output = `<label id="mood${slidesCount}-output" for="mood${slidesCount}-slider">0%</label>`;
+  $(`#mood${slidesCount} .mood-slider`).append(input);
+  $(`#mood${slidesCount} .mood-slider`).append(output);
+  sliders[slidesCount] = {
+    slider: document.getElementById(`mood${slidesCount}-slider`),
+    output: document.getElementById(`mood${slidesCount}-output`)
+  };
+  sliders[slidesCount].output.innerHTML = sliders[slidesCount].slider.value + "%";
+  if(slidesCount === 2){
+    $(`.add-mood`).remove();
+  }
 }
 
+function sliderChange(sliderID){
+  
+  let slider = sliders[sliderID].slider;
+  let output = sliders[sliderID].output;
+  let value;
+  let otherSlideVals = [];
+  slider.onchange = function(){
+    value = this.value;
+    output.innerHTML = this.value + "%";
+
+    let input = +value;
+    let delta = 100 - input;
+    let sum = 0;
+    let length = slidesCount + 1;
+    let siblings = [];
+
+    for (const slide in sliders) {
+      if (sliders.hasOwnProperty(slide)) {
+        if(slide !== sliderID){
+          // reset values for other slides relatively
+          siblings.push(sliders[slide].slider);
+          sum += +sliders[slide].slider.value;
+        }
+      }
+    };
+    //console.log(siblings);
+    let partial = 0;
+    siblings.forEach((siblingSlider, i)=>{
+      let val = +siblingSlider.value;
+      let fraction = 0;
+
+      //calculate fraction 
+      if(sum <= 0){
+        fraction = 1 / (length - 1);
+      }else{
+        fraction = val / sum;
+      }
+      // The last element will correct rounding errors
+      if (i >= length) {
+        val = 100 - partial;
+      } else {
+        val = delta * fraction;
+        partial += val;
+      }
+      siblingSlider.value = val;
+      // havent learnt regexp yet, so i splited a bunch of arrays
+      sliders[+siblings[i].id.split('-').map((el)=> el.split('mood'))[0][1]].output.innerHTML = Math.round(val) + "%";
+    });
+    
+  };
+  if(slidesCount === 0){
+    $(`.slider`).val(100);
+  }
+}
+function disableMood(selectEl){
+  console.log(selectEl.name, selectEl.value);
+  $(`.mood .alert`).remove();
+  let sameCount = 0;
+  for (const i in sliders) {
+    if (sliders.hasOwnProperty(i)) {
+      if(selectEl.name.split('emotion')[1] !== i){
+        if($(`select[name="emotion${i}"]`).val() === selectEl.value){
+          console.log(`same values`);
+          sameCount++;
+          if(sameCount < 2){
+            $(selectEl).before(`<p class="alert alert-danger">There can't be same moods</p>`);
+            $(`.btn-primary[type='submit']`).prop('disabled', true);
+          }
+        }
+      }
+      
+    }
+  }
+  if(sameCount == 0){
+    $(`.btn-primary[type='submit']`).prop('disabled', false);
+  }
+}
 $(document).ready(() => {
   CreateMonthlyHeatMap(fullYear, fullMonth);
   CreateLegend();
   loadMonth();
-  form = $('.dayForm').html();
   $('.monthCalendar svg g g').click(postPopUp);
+  sliders[0] = {
+    slider: document.getElementById(`mood0-slider`),
+    output: document.getElementById(`mood0-output`)
+  };
+  sliders[0].output.innerHTML = sliders[0].slider.value + "%";
+  //default the first mood, and set it to noneditable, it will be editable if you add more moods
+  $(`#mood0-slider`).val(100);
+  $(`#mood0-output`).html(`100%`);
 });

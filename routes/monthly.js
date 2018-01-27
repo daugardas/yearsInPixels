@@ -26,22 +26,38 @@ router.get(`/days`,mid.loggedIn,(req, res, next) => {
         if(err) return next(err);
         if(result){
           for (let i = 0; i < result.emotions.length; i++) {
-            answer.push([`${result.emotions[i].emotion.emotionDate}`, result.emotions[i].emotion.emotionValue]);
+            //percentages
+            let percentages = [];
+            for (let j = 0; j < result.emotions[i].emotion.emotionValue.length; j++) {
+              const element = result.emotions[i].emotion.emotionValue[j];
+              percentages.push([element.mood, element.moodPercentage]);
+            }
+            answer.push([`${result.emotions[i].emotion.emotionDate}`, percentages]);
           }
           res.send(answer);
         }
+        //answer format = [`YYYY-MM-DD`, [ [moodVal, percentage] ] ]
       });
   });
+  
 
 });
 
 router.post('/currentDay',mid.loggedIn, (req, res, next)=>{
+  let emotions = [];
+  for(let i = 0; i < 3; i++){
+    if(req.body[`emotion${i}`] !== undefined){
+      emotions.push( { mood: +req.body[`emotion${i}`], moodPercentage: +req.body[`mood${i}-slider`] } );
+    }
+  }
+  console.log(emotions);
   const day = {
     emotion: {
       emotionDate: req.body.date,
-      emotionValue: req.body.emotion,
+      emotionValue: emotions,
     }
   };
+  
   User.findById(req.session.userId)
     .exec((err, user)=>{
       if(err) return next(err);
@@ -49,12 +65,13 @@ router.post('/currentDay',mid.loggedIn, (req, res, next)=>{
       Emotion.findOne({username: user.username,'emotions.emotion.emotionDate': req.body.date}, (err, result)=>{
         if(err) return next(err);
         if(result){
-          for (let i = 0; i < result.emotions.length; i++) {
+          /* for (let i = 0; i < result.emotions.length; i++) {
             if(result.emotions[i].emotion.emotionDate === req.body.date){
               result.emotions[i].emotion.emotionValue = req.body.emotion;
               result.save();
             }
-          }
+          } */
+          //needs fixing, cause updated collection format
         } else{
           Emotion.findOneAndUpdate({username: user.username},{ $push: {emotions: day } },(err, results)=>{
             if(err) return next(err);

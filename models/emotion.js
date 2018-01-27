@@ -9,8 +9,18 @@ const EmotionSchema = new mongoose.Schema({
             emotion:{
                 emotionDate: {
                     type: String,
+                    required: true,
                 },
-                emotionValue: Number,
+                emotionValue: [{
+                    mood: {
+                        type: Number,
+                        required: true,
+                    },
+                    moodPercentage: {
+                        type: Number,
+                        required: true,
+                    }
+                }],
         }
     }]
 });
