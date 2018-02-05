@@ -20,7 +20,7 @@ const EmotionSchema = new mongoose.Schema({
                         type: Number,
                         required: true,
                     }
-                }],
+                }]
         }
     }]
 });

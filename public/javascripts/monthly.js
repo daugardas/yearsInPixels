@@ -243,8 +243,9 @@ function CreateLegend() {
     });
 }
 
-function gradient(date, colors) { // colors the day in gradient
+function gradient(date, colors, dataID) { // colors the day in gradient
   $(`#${date} rect`).addClass('colored');
+  d3.select(`g[id="${date}"]`).attr(`data-dbID`, dataID);
   let gradient = d3.select(`g[id="${date}"]`).select(`linearGradient`); // selects groups linearGradient elment
   gradient.selectAll('stop').remove(); //and removes the current gradients in it
   for (let i = 0; i < colors.length; i++) { // goes through gradient colors loop
@@ -277,6 +278,7 @@ function loadMonth() { // colors the month according to the data got from the se
     type: `GET`,
     dataType: `json`,
   }).done((answer) => {
+    console.log(answer);
     answer.forEach(element => {
       const date = element[0];
       let colors = [];
@@ -295,7 +297,6 @@ function loadMonth() { // colors the month according to the data got from the se
 
 let form;
 let clickedDate;
-
 function postPopUp() {
   clickedDate = $(this).attr('id'); //find the date of the clicked day
   const clickedDateObj = new Date(clickedDate); //assign date objects, so that the if statement is more readable
